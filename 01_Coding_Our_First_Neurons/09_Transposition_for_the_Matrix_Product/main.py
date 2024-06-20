@@ -37,9 +37,8 @@ matrix = [[0.49, 0.97, 0.53, 0.05],
 
 # Manual Implementation of Matrix Transposition 
 col = 0
-row = 0
-
 transposed_matrix = []
+
 while col < len(matrix[0]):
     new_vector = []
     for vector in matrix:
