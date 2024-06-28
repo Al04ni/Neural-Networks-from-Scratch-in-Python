@@ -22,7 +22,7 @@ outputs = [
     inputs[2] * weights2[2] +
     inputs[3] * weights2[3] + bias2,
     
-    # Neuron 2:
+    # Neuron 3:
     inputs[0] * weights3[0] +
     inputs[1] * weights3[1] +
     inputs[2] * weights3[2] +
