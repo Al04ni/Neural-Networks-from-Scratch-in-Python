@@ -33,4 +33,10 @@ dense1 = Layer_Dense(2, 3)
 dense1.forward(X)
 
 # Let's see output of the first few samples:
-print(dense1.output[:5])
+# print(dense1.output[:5])
+
+print("Weights not Transposed:")
+print(dense1.weights[:5], "\n")
+
+print("Weights Transposed:")
+print(dense1.weights[:5].T, "\n")
