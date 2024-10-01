@@ -82,9 +82,9 @@ class Loss_CategoricalCrossentropy(Loss):
             )
         
         # Losses
-        negative_log_likeligoods = -np.log(correct_confidences)
+        negative_log_likelihoods = -np.log(correct_confidences)
 
-        return negative_log_likeligoods
+        return negative_log_likelihoods
 
 # Create dataset
 X, y = spiral_data(samples=100, classes=3)
