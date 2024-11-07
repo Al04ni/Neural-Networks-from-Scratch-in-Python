@@ -93,7 +93,7 @@ for epoch in range(60_000):
 
         # if not epoch % 100:
     print(f"epoch: {epoch}, " +
-        f"loss: {loss:.3f}, ")
+          f"loss: {loss:.3f}, ")
 
     # Backward pass
     loss_function.backward(dense4.output, y)
