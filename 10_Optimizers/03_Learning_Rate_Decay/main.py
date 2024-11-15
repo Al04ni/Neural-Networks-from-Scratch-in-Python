@@ -234,7 +234,7 @@ optimizer = Optimizer_SGD(decay=1e-3) # 0.001
 fig = plt.figure(figsize=(14, 6))  # Increase figure width for more space
 gs = GridSpec(3, 2, width_ratios=[2, 1.5], height_ratios=[1, 1, 1], wspace=0.3, hspace=0.9)
 
-# Define subplots: main decision boundary plot on the left, and stacked loss/accuracy on the right
+# Define subplots: main decision boundary plot on the left, and stacked loss/accuracy/learning rate on the right
 ax_main = fig.add_subplot(gs[:, 0])  # Decision boundary plot spans both rows on the left
 ax_loss = fig.add_subplot(gs[0, 1])  # Loss plot on the top right
 ax_accuracy = fig.add_subplot(gs[1, 1])  # Accuracy plot on the middle right
