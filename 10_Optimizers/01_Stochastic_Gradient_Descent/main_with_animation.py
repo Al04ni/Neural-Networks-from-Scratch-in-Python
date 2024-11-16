@@ -311,5 +311,5 @@ plt.ioff()  # Turn off interactive mode
 plt.show()  # Keep the plot open at the end
 
 #       ----- Animations -----
-# Live SGD Optimization for neural network with Learning Rate of 1.0. Epilepsy Warning, there are quick flashing colors.
+# Live SGD Optimization for neural network with Learning Rate of 1.0.
 # https://nnfs.io/pup/

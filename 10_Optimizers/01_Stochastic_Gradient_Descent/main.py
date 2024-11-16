@@ -261,5 +261,5 @@ for epoch in range(100_000):
     optimizer.update_params(dense2)
 
 #       ----- Animations -----
-# Live SGD Optimization for neural network with Learning Rate of 1.0. Epilepsy Warning, there are quick flashing colors.
+# Live SGD Optimization for neural network with Learning Rate of 1.0.
 # https://nnfs.io/pup/
