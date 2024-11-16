@@ -184,7 +184,7 @@ class Activation_Softmax_Loss_CategoricalCrossentropy():
         self.dinputs = self.dinputs / samples
 
 
-# SGD Optimizer
+# SGD (Stochastic Gradient Descent) Optimizer
 class Optimizer_SGD:
     # Initialize optimizer - set settings,
     # learning rate of 1. is the default for this optimizer
