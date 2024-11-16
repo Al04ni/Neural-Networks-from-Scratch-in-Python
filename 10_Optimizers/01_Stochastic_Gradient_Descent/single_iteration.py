@@ -266,5 +266,5 @@ optimizer.update_params(dense2)
 print("\nPost Dense 1 weights update:\n", dense1.weights)
 
 #       ----- Animations -----
-# Live SGD Optimization for neural network with Learning Rate of 1.0. Epilepsy Warning, there are quick flashing colors.
+# Live SGD Optimization for neural network with Learning Rate of 1.0.
 # https://nnfs.io/pup/

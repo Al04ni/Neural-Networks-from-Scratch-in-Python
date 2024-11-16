@@ -34,5 +34,5 @@
 # Good Learning Rate
 # https://nnfs.io/rog/
 
-# Live SGD Optimization for neural network with 0.5 Learning Rate. Epilepsy Warning, there are quick flashing colors.
+# Live SGD Optimization for neural network with 0.5 Learning Rate.
 # https://nnfs.io/cup/
