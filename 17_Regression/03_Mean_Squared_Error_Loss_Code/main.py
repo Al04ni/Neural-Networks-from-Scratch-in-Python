@@ -43,8 +43,7 @@ class Loss:
 
 
 # Mean Squared Error loss
-class Loss_MeanSquaredError(Loss):  # Data loss: squared L2-norm of prediction error
-
+class Loss_MeanSquaredError(Loss):  # L2 loss, squared L2-norm of prediction error
 
     # Forward pass
     def forward(self, y_pred, y_true):
