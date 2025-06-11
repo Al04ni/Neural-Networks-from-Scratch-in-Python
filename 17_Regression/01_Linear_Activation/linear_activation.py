@@ -6,7 +6,7 @@ class Activation_Linear:
     def forward(self, inputs):
         # Just remember values
         self.inputs = inputs
-        self.outputs = inputs
+        self.output = inputs
     
     # Backward pass
     def backward(self, dvalues):
