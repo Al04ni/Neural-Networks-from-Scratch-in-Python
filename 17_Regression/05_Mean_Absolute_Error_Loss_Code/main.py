@@ -58,7 +58,7 @@ class Loss_MeanAbsoluteError(Loss): # L1 loss, absolute L1-norm of prediction er
     def backward(self, dvalues, y_true):
 
         # Number of samples
-        samples = len(dvalues[0])
+        samples = len(dvalues)
         # Number of outputs in every sample
         # We'll use the first sample to count them
         outputs = len(dvalues[0])
