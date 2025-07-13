@@ -16,6 +16,8 @@ from loss_functions import (
 from nnfs.datasets import sine_data, spiral_data
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
+import copy
 import nnfs
 import cv2
 import os
@@ -37,12 +39,18 @@ class Model:
     def add(self, layer):
         self.layers.append(layer)
     
-    # Set loss and optimizer and accuracy
-    def set(self, *, loss, optimizer, accuracy):
-        self.loss = loss
-        self.optimizer = optimizer
-        self.accuracy = accuracy
-    
+    # Set loss, optimizer and accuracy
+    def set(self, *, loss=None, optimizer=None, accuracy=None):
+
+        if loss is not None:
+            self.loss = loss
+
+        if optimizer is not None:
+            self.optimizer = optimizer
+
+        if accuracy is not None:
+            self.accuracy = accuracy
+
     # Finalize the model
     def finalize(self):
         # Create and set the input layer
@@ -85,7 +93,8 @@ class Model:
                 self.trainable_layers.append(self.layers[i])
         
         # Update loss object with trainable layers
-        self.loss.remember_trainable_layers(self.trainable_layers)
+        if self.loss is not None:
+            self.loss.remember_trainable_layers(self.trainable_layers)
 
         # If output activation is Softmax and loss function is Categorical Cross-Entropy
         # create an object of combined activation and loss function containing faster gradient calculation
@@ -283,6 +292,68 @@ class Model:
         # in reveresed order passing dinputs as a parameter
         for layer in reversed(self.layers):
             layer.backward(layer.next.dinputs)
+    
+    # Retrieves and returns parameters of trainable layers
+    def get_parameters(self):
+
+        # Create a list for parameters
+        parameters = []
+
+        # Iterable trainable layers and get their parameters
+        for layer in self.trainable_layers:
+            parameters.append(layer.get_parameters())
+
+        # Return a list
+        return parameters
+
+    # Updates the model with new parameters
+    def set_parameters(self, parameters):
+
+        # Iterate over the parameters and layers
+        # and update each layers with each set of the parameters
+        for parameter_set, layer in zip(parameters, self.trainable_layers):
+            layer.set_parameters(*parameter_set)
+    
+    # Saves the parameters to a file
+    def save_parameters(self, path):
+
+        # Open a file in the binary-write mode
+        # and save parameters into it
+        with open(path, 'wb') as f:
+            pickle.dump(self.get_parameters(), f)
+
+    # Loads the weights and updates a model instance with them
+    def load_parameters(self, path):
+
+        # Open file in the binary-read mode,
+        # load weights and update trainable layers
+        with open(path, 'rb') as f:
+            self.set_parameters(pickle.load(f))
+
+    # Saves the model
+    def save(self, path):
+
+        # Make a deep copy of current model instance
+        model = copy.deepcopy(self)
+
+        # Reset accumulated values in loss and accuracy objects
+        model.loss.new_pass()
+        model.accuracy.new_pass()
+
+        # Remove data from the input layer
+        # and gradients from the loss object
+        model.input_layer.__dict__.pop('output', None)
+        model.loss.__dict__.pop('dinputs', None)
+
+        # For each layer remove inputs, output and dinputs properties
+        for layer in model.layers:
+            for property in ['inputs', 'output', 'dinputs',
+                             'dweights', 'dbiases']:
+                layer.__dict__.pop(property, None)
+
+        # Open a file in the binary-write mode and save the model
+        with open(path, 'wb') as f:
+            pickle.dump(model, f)
 
 
 # Common accuracy class
@@ -389,7 +460,7 @@ def create_data_mnist(path):
     return X, y, X_test, y_test
 
 
-directory_path = "fashion_mnist_images"
+directory_path = "../fashion_mnist_images"
 
 # Create dataset
 X, y, X_test, y_test = create_data_mnist(directory_path)
@@ -417,7 +488,9 @@ model.add(Activation_ReLU())
 model.add(Layer_Dense(128, 10))
 model.add(Activation_Softmax())
 
-# Set loss, optimizer and accuracy objects
+# Set loss and accuracy objects
+# We do not set optimizer object this time - there's no need to do it
+# as we won't train the model
 model.set(
     loss=Loss_CategoricalCrossentropy(),
     optimizer=Optimizer_Adam(decay=1e-3),
@@ -431,9 +504,5 @@ model.finalize()
 # Train the model
 model.train(X, y, validation_data=(X_test, y_test), epochs=10, batch_size=128, print_every=100)
 
-# Evaluation
-print("\nEvaluating on test data...")
-model.evaluate(X_test, y_test)
-
-print("\nEvaluating on training data...")
-model.evaluate(X, y)
+# Save the model
+model.save("fashion_mnist.model")

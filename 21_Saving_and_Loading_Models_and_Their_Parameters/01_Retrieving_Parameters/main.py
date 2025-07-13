@@ -283,6 +283,19 @@ class Model:
         # in reveresed order passing dinputs as a parameter
         for layer in reversed(self.layers):
             layer.backward(layer.next.dinputs)
+    
+    # Retrieves and returns parameters of trainable layers
+    def get_parameters(self):
+
+        # Create a list for parameters
+        parameters = []
+
+        # Iterable trainable layers and get their parameters
+        for layer in self.trainable_layers:
+            parameters.append(layer.get_parameters())
+
+        # Return a list
+        return parameters
 
 
 # Common accuracy class
@@ -389,7 +402,7 @@ def create_data_mnist(path):
     return X, y, X_test, y_test
 
 
-directory_path = "fashion_mnist_images"
+directory_path = "../fashion_mnist_images"
 
 # Create dataset
 X, y, X_test, y_test = create_data_mnist(directory_path)
@@ -431,9 +444,6 @@ model.finalize()
 # Train the model
 model.train(X, y, validation_data=(X_test, y_test), epochs=10, batch_size=128, print_every=100)
 
-# Evaluation
-print("\nEvaluating on test data...")
-model.evaluate(X_test, y_test)
-
-print("\nEvaluating on training data...")
-model.evaluate(X, y)
+# Get parameters
+parameters = model.get_parameters()
+print(parameters)
